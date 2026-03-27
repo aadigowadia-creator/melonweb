@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MelonWeb</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f0f4ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 48px 40px;
+      box-shadow: 0 4px 24px rgba(21,101,216,0.10);
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 28px;
+      font-weight: 800;
+      color: #3bb54a;
+    }
+
+    .logo svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-top: -12px;
+    }
+
+    .search-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: #f0f4ff;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px 14px;
+      gap: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .search-wrap:focus-within {
+      border-color: #3bb54a;
+    }
+
+    .search-wrap svg {
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+
+    #proxy-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      color: #1a1a2e;
+    }
+
+    #proxy-input::placeholder { color: #aab0bb; }
+
+    #go-btn {
+      background: #3bb54a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    #go-btn:hover { background: #2e9e3c; }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" fill="#3bb54a"/>
+        <ellipse cx="20" cy="23" rx="11" ry="8" fill="#7ed957"/>
+        <path d="M20 13 Q23 7 28 9" stroke="#3bb54a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </svg>
+      MelonWeb
+    </div>
+
+    <div class="search-wrap">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input id="proxy-input" type="text" placeholder="Search or enter a URL..." autocomplete="off" />
+      <button id="go-btn">Go</button>
+    </div>
+  </div>
+
+<script>
+  const SCRAMJET = 'https://scramjet-app-g8ve.onrender.com';
+
+  function openProxy(url) {
+    if (!url) return;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = url.includes('.') && !url.includes(' ')
+        ? 'https://' + url
+        : 'https://www.google.com/search?q=' + encodeURIComponent(url);
+    }
+    window.open(
+      SCRAMJET + '/?url=' + encodeURIComponent(url),
+      'melonweb',
+      'width=' + screen.width + ',height=' + screen.height
+    );
+  }
+
+  document.getElementById('go-btn').addEventListener('click', () => {
+    const val = document.getElementById('proxy-input').value.trim();
+    if (val) openProxy(val);
+  });
+
+  document.getElementById('proxy-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') openProxy(e.target.value.trim());
+  });
+</script>
+</body>
+</html>
